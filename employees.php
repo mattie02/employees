@@ -107,7 +107,20 @@ function add_employee_information_fields( $employees_id, $employees ) {
 	}
 }
 
+add_filter( 'template_include', 'include_template_function', 1 ); 
 
+function include_template_function( $template_path ) {
+	if( get_post_type() == 'employees' ) {
+		if( is_single() ) {
+			if( $theme_file = locate_template( array( 'single-employee.php' ) ) ) {
+				$template_path = $theme_file;
+			} else {
+				$template_path = plugin_dir_path( __FILE__ ) . 'single-employee.php';
+			}
+		}
+	}
+	return $template_path;
+}
 
 
 
